@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	@author hjh
+	-->
+<!-- com.dao.UserReportDao对应Dao接口 -->
+<mapper namespace="com.dao.user.UserReportDao">
+	<!-- 查orderlist -->
+	<select id="selectorderlist" resultType="Order2" parameterType="java.util.Map">
+select * from (select `object`.object_code,`object`.object_name,`order`.order_type,sum(`order`.order_amount) as order_amount from `order`,user,object where user.user_key=`order`.user_key and object.object_key = `order`.object_key and month(str_to_date(`order`.order_date,'%Y-%m-%d %H:%i:%s'))=#{month} and year(str_to_date(`order`.order_date,'%Y-%m-%d %H:%i:%s'))=#{year} GROUP BY `order`.object_key limit #{begin},6) as a ORDER BY order_amount ASC	</select>
+	<!-- 查allorderlist -->
+	<select id="selectallorderlist" resultType="Order2" parameterType="Integer">
+		select `order`.order_num,`user`.user_code,`user`.user_name,`object`.object_code,`object`.object_name,`order`.order_type,`order`.order_amount from `order`,user,object where user.user_key=`order`.user_key and object.object_key = `order`.object_key limit #{begin},6;
+	</select>
+	<!-- 查allorderlist记录数 -->
+	<select id="selectallorderlistnum" resultType="Integer">
+		select count(*) from `order`
+	</select>
+	<!-- 查orderlist记录数 -->
+	<select id="selectorderlistnum" resultType="Integer" parameterType="java.util.Map">
+		select count(*) from (select `object`.object_code,`object`.object_name,`order`.order_type,sum(`order`.order_amount) as order_amount from `order`,user,object where user.user_key=`order`.user_key and object.object_key = `order`.object_key and month(str_to_date(`order`.order_date,'%Y-%m-%d %H:%i:%s'))=#{month} and year(str_to_date(`order`.order_date,'%Y-%m-%d %H:%i:%s'))=#{year}) as ordersort
+	</select>
+
+	
+</mapper>

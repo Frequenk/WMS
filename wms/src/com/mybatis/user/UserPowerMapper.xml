@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	@author fyk 
+	-->
+<!-- com.dao.AdminDao对应Dao接口 -->
+<mapper namespace="com.dao.user.UserPowerDao">
+	<!-- 查询用户数量 -->
+	<select id="selectCountUser" resultType="Integer" parameterType="User">
+		select count(*) from user where user_exist=1 and user_key!=#{user_key}
+	</select>
+	<!-- 分页查询用户 -->
+	<select id="selectAllUserByPage"  resultType="User" parameterType="map">
+		select * from user where user_exist=1 and user_key!=#{user_key} order by user_key limit #{startIndex}, #{perPageSize}
+	</select>
+	<!-- 修改权限 -->
+	<update id="modify_power" parameterType="User"> 
+		update user set user_object=#{user_object},user_user=#{user_user},user_order=#{user_order},user_log=#{user_log},user_report=#{user_report} where user_key=#{user_key} and user_exist=1
+	</update>
+	
+</mapper>

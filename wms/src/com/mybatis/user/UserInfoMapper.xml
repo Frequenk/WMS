@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	@author fyk 
+	-->
+<!-- com.dao.AdminDao对应Dao接口 -->
+<mapper namespace="com.dao.user.UserInfoDao">
+	<!-- 验证user旧密码是否正确 -->
+	<select id="yanzhengpwd"  resultType="User" parameterType="User">
+		select user_key from user where user_key=#{user_key} and user_pwd=#{user_pwd} and user_exist=1
+	</select>
+	<!-- 修改密码 -->
+	<update id="modify_pwd" parameterType="User">
+		update user set user_pwd=#{user_pwd} where user_key=#{user_key} and user_exist=1
+	</update>
+	<!-- 修改个人信息 -->
+	<update id="modify_info" parameterType="User">
+		update user set user_name=#{user_name},user_sex=#{user_sex},user_birthday=#{user_birthday},user_id=#{user_id},user_native=#{user_native},user_address=#{user_address},user_tel=#{user_tel},user_other=#{user_other},user_update=#{user_update},user_exist=#{user_exist} where user_key=#{user_key} and user_exist=1
+	</update>
+	<!-- 获取当前登录账号 -->
+	<select id="getAccount"  resultType="User" parameterType="User">
+		select * from user where user_key=#{user_key}
+	</select>
+	<!--添加用户 -->
+	<insert id="add_user" parameterType="User">
+        insert into user(user_code, user_pwd,user_name,user_sex,user_birthday,user_id,user_native,user_address,user_tel,user_other,user_create,user_update) values(#{user_code}, #{user_pwd}, #{user_name}, #{user_sex}, #{user_birthday}, #{user_id}, #{user_native}, #{user_address}, #{user_tel}, #{user_other}, #{user_create}, #{user_update})
+    </insert>
+   	<!--  根据名字搜索用户 -->
+   	<select id="search_user" resultType="User" parameterType="User">
+		select * from user where user_exist=1 and user_name LIKE concat('%',#{user_name},'%') and user_key!=#{user_key}
+	</select>
+</mapper>

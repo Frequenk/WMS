@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	@author hjh
+	-->
+<!-- com.dao.user.UserObjectDao对应Dao接口 -->
+<mapper namespace="com.dao.user.UserObjectDao">
+		<!-- 查allobjectlist -->
+	<select id="selectallobjectlist" resultType="Ob" parameterType="Integer">
+		select * from object where object_exist = 1 limit #{begin},7;
+	</select>
+	<!-- 查allobjectlist记录数 -->
+	<select id="selectobjectmaxpage" resultType="Integer">
+		select count(*) from object where object_exist = 1
+	</select>
+	<!-- 查allobjectlist -->
+	<select id="selectallobjectlistbyname" resultType="Ob" parameterType="java.util.Map">
+		select * from object where object_name LIKE concat('%',#{obname},'%') and object_exist = 1 limit #{begin},7;
+	</select>
+	<!-- 查allobjectlist记录数 -->
+	<select id="selectobjectbynamemaxpage" resultType="Integer" parameterType="String">
+		select count(*) from object where object_name = #{obname} and object_exist = 1
+	</select>
+	<!-- 添加object -->
+	<insert id="insertobject" parameterType="Ob">
+		<!-- insert into object(object_code,object_name,object_model,object_unit,object_stock,object_other,object_create,object_update) values ('pad002','ipad mini','高配版','台',0,'无','2020-5-9 23:08:01','2020-5-9 23:08:01')
+		 -->insert into object(object_code,object_name,object_model,object_unit,object_stock,object_other,object_create,object_update) values (#{object_code},#{object_name},#{object_model},#{object_unit},#{object_stock},#{object_other},#{object_create},#{object_update})
+	</insert>
+	<!-- 修改object -->
+	<update id="updateobject" parameterType="java.util.Map">
+		update object set object_code = #{ob1.object_code},object_name = #{ob1.object_name},object_model = #{ob1.object_model},object_stock = #{ob1.object_stock},object_update = #{ob1.object_update} where object_name = #{ob1.object_name} and object_model = #{ob1.object_model}
+	</update>
+	<!-- 修改object -->
+	<update id="deleteobject" parameterType="Ob">
+		update object set object_exist = 0 where object_name = #{object_name} and object_model = #{object_model}
+	</update>
+
+	
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 
+	@author hjh
+	-->
+<!-- com.dao.AdminDao对应Dao接口 -->
+<mapper namespace="com.dao.user.UserOrderDao">
+	<select id="getobjectlist" resultType="Ob">
+		select * from object where object_exist=1
+	</select>
+	
+	<select id="getobjectlistbyobject" resultType="Ob" parameterType="String">
+		select * from object where object_name=#{String}
+	</select>
+	
+	<update id="tianjiaobnumbyobnmandobmd" parameterType="Ob">
+		update object set object_stock = object_stock + #{object_stock} where object_name = #{object_name} and object_model = #{object_model}
+	</update>
+	
+	<update id="jianshaoobnumbyobnmandobmd" parameterType="Ob">
+		update object set object_stock = object_stock - #{object_stock} where object_name = #{object_name} and object_model = #{object_model}
+	</update>
+	
+	<insert id="insertorder" parameterType="Order">
+		insert into `order`(order_num,user_key,object_key,order_type,order_amount,order_other,order_date) values (#{order_num},#{user_key},#{object_key},#{order_type},#{order_amount},#{order_other},#{order_date})
+	</insert>
+	
+	<select id="selectobbyob" parameterType="Ob" resultType="Ob">
+		select * from object where object_name = #{object_name} and object_model = #{object_model}
+	</select>
+	
+</mapper>

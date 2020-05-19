@@ -2,6 +2,7 @@
 仓库管理系统
 
 前后端分离，前端用Boostrap+JQuery，后端用SSM，数据库用MySQL
+桌面应用程序用Electron
 
 有问题加QQ：1281363146
 
